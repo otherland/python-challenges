@@ -1,4 +1,10 @@
 def heapsort(sequence):
+    """
+    heapsorts a sequence
+
+    >>> heapsort([1, 3, 10, 6, 13, 12, 0, 14, 11, 2, 8, 4, 9, 7, 5])
+    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+    """
     sequence_length = len(sequence)
     print('Sequence length:', sequence_length)
 
@@ -46,9 +52,11 @@ def heapsort(sequence):
     heapify()
     print('Finished heapify:', sequence)
     sort()
+    return sequence
 
-from random import shuffle
-sequence = list(range(15))
-shuffle(sequence)
-print(sequence)
-heapsort(sequence)
+if __name__ == '__main__':
+    from random import shuffle
+    sequence = list(range(15))
+    shuffle(sequence)
+    print(sequence)
+    heapsort(sequence)
