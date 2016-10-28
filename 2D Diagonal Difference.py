@@ -2,9 +2,9 @@
 Print the absolute difference between the two sums of the matrix's diagonals as a single integer.
 """
 def solution(arr):
-    size = len(arr)
     leftD = 0
     rightD = 0
+    size = len(arr)
     for j in range(size):
         leftD += arr[j][j]
         rightD += arr[j][size-1-j]

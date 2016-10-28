@@ -1,3 +1,8 @@
+"""
+Implement a binary tree
+
+"""
+
 class Node:
     def __init__(self, data: int, *args, **kwargs):
 
@@ -43,4 +48,42 @@ class Node:
             self.right.print_in_order()
 
 
-Node()
+"""
+Check if the binary search tree is valid
+
+https://www.hackerrank.com/challenges/ctci-is-binary-search-tree/forum
+
+
+Method
+
+Does the tree meet the requirements of a binary search tree?
+
+Left < Parent < Root
+Right > Parent > Root
+
+"""
+
+def checkBST(root, xmin, xmax):
+    # Recursion base cases
+    if root is None:
+        print('Root is none', root)
+        return True
+    if root.data < xmin or root.data > xmax:
+        print('{} < {} or > {}'.format(root.data, xmin, xmax))
+        return False
+    left = checkBST(root.left, xmin, root.data - 1)
+    right = checkBST(root.right, root.data + 1, xmax)
+    print(left, right)
+    return left and right
+
+root = Node(4)
+root.insert(2)
+root.insert(1)
+root.insert(7)
+root.insert(6)
+root.insert(3)
+root.insert(5)
+# root.print_in_order()
+
+checkBST(root, -99999, 99999)
+

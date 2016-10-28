@@ -3,7 +3,7 @@ https://www.interviewcake.com/question/python/product-of-other-numbers
 
 You have a list of integers, and for each index you want to find the product of every integer except the integer at that index.
 
-Write a function get_products_of_all_ints_except_at_index() that takes a list of integers and returns a list of the products.
+Write a function solution() that takes a list of integers and returns a list of the products.
 
 For example, given:
 
@@ -21,26 +21,78 @@ Do not use division in your solution.
 
 """
 
-def get_products_of_all_ints_except_at_index(arr):
+def solution_1(arr):
+    increase = []
+    decrease = []
+    result = []
+    size = len(arr)
+    last = 1
+    for i in arr:
+        last *= i
+        increase.append(last)
+    last = 1
+    for j in reversed(arr):
+        last *= j
+        decrease.append(last)
+    for index in range(size):
+        if index == 0:
+            k = decrease[-2]
+        elif index == size - 1:
+            k = increase[-2]
+        else:
+            left = increase[index-1]
+            right = decrease[size-index-2]
+            k = left * right
+        result.append(k)
+    return result
 
-    return arr
 
-x = [1, 7, 3, 4]
-print(get_products_of_all_ints_except_at_index(x))
+
+def solution_2(arr):
+
+    # for each integer, find the product of all the integers
+    # before it, storing the total product so far each time
+    before = [] # products_of_all_ints_before_index
+    product = 1
+    for i in arr:
+        before.append(product)
+        product *= i
+
+    product = 1
+
+    for j in range(len(arr)-1, -1, -1):
+        before[j] *= product
+        product *= arr[j]
+
+    return before
+
+
+# Tests
+assert solution_2([1, 7, 3, 4]) == [84, 12, 28, 21]
+
+print('Tests pass.')
 
 
 
 """
-We're doing some of the same multiplications two or three times!
-When we calculate [2*6*5*9, 1*6*5*9, 1*2*5*9, 1*2*6*9, 1*2*6*5], we're calculating 5*9 three times: at indices 0, 1, and 2.
 
-Or look at this pattern:
-When we calculate [2*6*5*9, 1*6*5*9, 1*2*5*9, 1*2*6*9, 1*2*6*5], we have 1 in index 1, and we calculate 1*2 at index 2, 1*2*6 at index 3, and 1*2*6*5 at index 4.
+solution_2 Complexity
 
-We’re redoing multiplications when instead we could be storing the results! This would be a great time to use a greedy ↴ approach. We could store the results of each multiplication highlighted in blue, then just multiply by one new integer each time.
+O(n) time and O(n) space. We make two passes through our input a list, and the list we build always has the same length as the input list.
 
-So in the last highlighted multiplication, for example, we wouldn’t have to multiply 1∗2∗61*2*61∗2∗6 again. If we stored that value (121212) from the previous multiplication, we could just multiply 12∗512*512∗5.
 
-Can we break our problem down into subproblems so we can use a greedy approach?
+What We Learned
+
+Another question using a greedy approach. The tricky thing about this one: we couldn't actually solve it in one pass. But we could solve it in two passes!
+
+This approach probably wouldn't have been obvious if we had started off trying to use a greedy approach.
+
+Instead, we started off by coming up with a slow (but correct) brute force solution and trying to improve from there. We looked at what our solution actually calculated, step by step, and found some repeat work. Our final answer came from brainstorming ways to avoid doing that repeat work.
+
+So that's a pattern that can be applied to other problems:
+
+Start with a brute force solution, look for repeat work in that solution, and modify it to only do that work once.
 
 """
+
+
