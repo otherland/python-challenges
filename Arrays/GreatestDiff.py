@@ -1,9 +1,6 @@
 """
 Write a function that takes an array of numbers and returns the greatest difference you can get by subtracting any two of those numbers.
 """
-from HelperFunctions import print_result
-
-# @print_result
 def solution(a):
     lo = a[0]
     hi = a[0]
